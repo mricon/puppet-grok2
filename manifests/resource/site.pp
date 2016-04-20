@@ -3,11 +3,11 @@ define grokmirror::resource::site (
   Enum['present','absent']  $ensure         = 'present',
   Pattern['^\/']            $toplevel       = "${grokmirror::global_toplevel}/${name}",
   Pattern['^\/']            $local_manifest = "${toplevel}/manifest.js.gz",
-  Enum['debug','info']      $loglevel       = $grokmirror::global_loglevel,
 
   Boolean                   $pull_enable                 = true,
   Pattern['^\/.*\.conf$']   $pull_configfile             = "${grokmirror::global_configdir}/${name}-repos.conf",
   Pattern['^\/.*\.log$']    $pull_logfile                = "${grokmirror::global_logdir}/${name}-pull.log",
+  Enum['debug','info']      $pull_loglevel               = $grokmirror::global_loglevel,
   Pattern['^https?:\/\/','^file:\/\/']
                             $pull_remote_manifest        = undef,
   Pattern['^git:\/\/','^file:\/\/', '^https?:\/\/']
@@ -33,6 +33,7 @@ define grokmirror::resource::site (
   Boolean                   $fsck_enable                 = true,
   Pattern['^\/.*\.conf$']   $fsck_configfile             = "${grokmirror::global_configdir}/${name}-fsck.conf",
   Pattern['^\/.*\.log$']    $fsck_logfile                = "${grokmirror::global_logdir}/${name}-fsck.log",
+  Enum['debug','info']      $fsck_loglevel               = $grokmirror::global_loglevel,
   Pattern['^\/']            $fsck_lockfile               = "${toplevel}/.fsck.lock",
   Pattern['^\/']            $fsck_statusfile             = "${toplevel}/.fsck-status.js",
   Integer[2,365]            $fsck_frequency              = 30,
@@ -41,13 +42,6 @@ define grokmirror::resource::site (
   Integer[2,100]            $fsck_full_repack_every      = 10,
   String                    $fsck_full_repack_flags      = '-Adlfq --window=200 --depth=50',
   Boolean                   $fsck_prune                  = true,
-  Array[String]             $fsck_ignore_errors          = [
-                                                             'dangling commit',
-                                                             'dangling blob',
-                                                             'notice: HEAD points to an unborn branch',
-                                                             'notice: No default references',
-                                                             'contains zero-padded file modes',
-                                                           ],
   Boolean                   $fsck_enable_cron            = true,
   String                    $fsck_cron_minute            = '0',
   String                    $fsck_cron_hour              = '4',
@@ -55,6 +49,14 @@ define grokmirror::resource::site (
   String                    $fsck_cron_monthday          = '*',
   String                    $fsck_cron_weekday           = 'sun',
   String                    $fsck_cron_extra_flags       = '',
+
+  Array[String]             $fsck_ignore_errors          = [
+    'dangling commit',
+    'dangling blob',
+    'notice: HEAD points to an unborn branch',
+    'notice: No default references',
+    'contains zero-padded file modes'
+  ],
 ) {
 
   # We create this if we are asked to be present, but we don't delete it
