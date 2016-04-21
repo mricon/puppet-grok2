@@ -1,15 +1,18 @@
-# Class: grokmirror
+# == Class: grokmirror
 #
-# This module manages grokmirror
+# Main class for grokmirror
 #
-# Parameters: none
+# === Authors
 #
-# Actions:
+# Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 #
-# Requires: see Modulefile
+# === Copyright
 #
-# Sample Usage:
+# Copyright 2016 Konstantin Ryabitsev
 #
+# === License
+#
+# @License Apache-2.0 <http://spdx.org/licenses/Apache-2.0>
 class grokmirror (
   String                $package_name        = $grokmirror::params::package_name,
   Enum['present','absent','installed','latest']

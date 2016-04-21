@@ -2,8 +2,6 @@
 #
 # Configuration parameters for grokmirror
 #
-# == Parameters
-#
 # === Authors
 #
 # Konstantin Ryabitsev <konstantin@linuxfoundation.org>

@@ -1,3 +1,19 @@
+# == Class: grokmirror::install
+#
+# Install class for grokmirror
+#
+# === Authors
+#
+# Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+#
+# === Copyright
+#
+# Copyright 2016 Konstantin Ryabitsev
+#
+# === License
+#
+# @License Apache-2.0 <http://spdx.org/licenses/Apache-2.0>
+#
 class grokmirror::install {
   if ($grokmirror::manage_package) {
     ensure_packages ([
