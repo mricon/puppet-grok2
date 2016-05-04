@@ -6,6 +6,7 @@ describe 'grokmirror' do
       it { should compile }
       it { should contain_class('grokmirror::install') }
       it { should contain_package('python-grokmirror') }
+      it { should contain_package('git') }
       it { should contain_user('grokmirror')
            .with({
              'ensure' => 'present',
@@ -37,12 +38,14 @@ describe 'grokmirror' do
         :global_toplevel => '/home/git',
         :global_logdir => '/var/log/git',
         :package_name => 'python2-grokmirror',
+        :git_package_name => 'git2u',
         :user => 'mirror',
         :group => 'mirror',
       }}
       it { should compile }
       it { should contain_class('grokmirror::install') }
       it { should contain_package('python2-grokmirror') }
+      it { should contain_package('git2u') }
       it { should contain_user('mirror')
            .with({
              'ensure' => 'present',

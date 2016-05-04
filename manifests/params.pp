@@ -19,6 +19,11 @@ class grokmirror::params {
   $manage_package      = true
   $package_name        = 'python-grokmirror'
   $package_ensure      = 'installed'
+
+  $git_manage_package  = true
+  $git_package_name    = 'git'
+  $git_package_ensure  = 'installed'
+
   $global_configdir    = '/etc/grokmirror'
   $global_toplevel     = '/var/lib/git'
   $global_logdir       = '/var/log/grokmirror'

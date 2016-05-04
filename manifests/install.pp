@@ -15,6 +15,14 @@
 # @License Apache-2.0 <http://spdx.org/licenses/Apache-2.0>
 #
 class grokmirror::install {
+  if ($grokmirror::git_manage_package) {
+    ensure_packages ([
+      $grokmirror::git_package_name,
+    ],
+    { ensure => $grokmirror::git_package_ensure }
+    )
+  }
+
   if ($grokmirror::manage_package) {
     ensure_packages ([
       $grokmirror::package_name,
@@ -63,6 +71,7 @@ class grokmirror::install {
   if $grokmirror::manage_user {
     user { $grokmirror::user:
       ensure => present,
+      gid    => $grokmirror::group,
       home   => $grokmirror::global_toplevel,
       shell  => '/sbin/nologin',
     }
