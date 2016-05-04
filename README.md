@@ -59,6 +59,12 @@ If you're using Hiera, the same configuration might look like:
 
 ### `grokmirror`
 
+#### `manage_package`
+
+Whether to manage the grokmirror package or not.
+
+Default: `true`
+
 #### `package_name`
 
 Name of the package to install.
@@ -70,7 +76,25 @@ Default: `python-grokmirror`
 In case you are not running grokmirror from a package, you can set this to
 `absent`.
 
-Default: `present`
+Default: `installed`
+
+#### `git_manage_package`
+
+Whether to manage the git package or not.
+
+Default: `true`
+
+#### `git_package_name`
+
+Name of the git package to install (e.g. handy if you want git2u from IUS).
+
+Default: `git`
+
+#### `git_package_ensure`
+
+Should we ensure that package is installed or removed?
+
+Default: `installed`
 
 #### `global_configdir`
 
