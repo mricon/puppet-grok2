@@ -22,7 +22,7 @@ define grokmirror::resource::site (
   Integer[1,100]            $pull_threads                = 5,
   Array[String]             $pull_include                = ['*'],
   Optional[Array[String]]   $pull_exclude                = undef,
-  Boolean                   $pull_enable_cron            = true,
+  Boolean                   $pull_cron_enable            = true,
   String                    $pull_cron_minute            = '*/5',
   String                    $pull_cron_hour              = '*',
   String                    $pull_cron_month             = '*',
@@ -42,7 +42,7 @@ define grokmirror::resource::site (
   Integer[2,100]            $fsck_full_repack_every      = 10,
   String                    $fsck_full_repack_flags      = '-Adlfq --window=200 --depth=50',
   Boolean                   $fsck_prune                  = true,
-  Boolean                   $fsck_enable_cron            = true,
+  Boolean                   $fsck_cron_enable            = true,
   String                    $fsck_cron_minute            = '0',
   String                    $fsck_cron_hour              = '4',
   String                    $fsck_cron_month             = '*',
@@ -83,8 +83,14 @@ define grokmirror::resource::site (
       checksum => 'md5',
     }
 
+    if $pull_cron_enable {
+      $pull_cron_ensure = $ensure
+    } else {
+      $pull_cron_ensure = 'absent'
+    }
+
     cron { "${name}-grok-pull":
-      ensure      => $ensure,
+      ensure      => $pull_cron_ensure,
       command     => "${grokmirror::pull_command} ${pull_cron_extra_flags} -c ${pull_configfile}",
       environment => $grokmirror::cron_environment,
       minute      => $pull_cron_minute,
@@ -110,8 +116,15 @@ define grokmirror::resource::site (
       checksum => 'md5',
     }
 
+    if $fsck_cron_enable {
+      $fsck_cron_ensure = $ensure
+    } else {
+      $fsck_cron_ensure = 'absent'
+    }
+
+
     cron { "${name}-grok-fsck":
-      ensure      => $ensure,
+      ensure      => $fsck_cron_ensure,
       command     => "${grokmirror::fsck_command} ${fsck_cron_extra_flags} -c ${fsck_configfile}",
       environment => $grokmirror::cron_environment,
       minute      => $fsck_cron_minute,

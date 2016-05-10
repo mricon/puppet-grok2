@@ -304,7 +304,7 @@ mirror. See grokmirror documentation for full details.
 
 Default: `undef`
 
-#### `pull_enable_cron`
+#### `pull_cron_enable`
 
 Whether to enable the cronjob running `grok-pull` on a regular basis. You
 probably want this, unless you want to only update the mirror on an ad-hoc
@@ -436,7 +436,7 @@ Whether to prune the repos after repacking (you almost always want this).
 
 Default: `true`
 
-#### `fsck_enable_cron`
+#### `fsck_cron_enable`
 
 Whether to enable the cronjob running `grok-fsck` on a regular basis. You
 probably want this, unless you want to only run it manually on an ad-hoc
