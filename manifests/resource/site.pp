@@ -16,7 +16,7 @@ define grokmirror::resource::site (
   Boolean                   $pull_ignore_repo_references = false,
   Pattern['^\/']            $pull_projectslist           = "${toplevel}/projects.list",
   Optional[String]          $pull_projectslist_trimtop   = undef,
-  Boolean                   $pull_projectlist_symlinks   = false,
+  Boolean                   $pull_projectslist_symlinks  = false,
   Optional[Pattern['^\/']]  $pull_post_update_hook       = undef,
   Integer[5,100]            $pull_purgeprotect           = 5,
   Integer[1,100]            $pull_threads                = 5,
