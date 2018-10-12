@@ -30,32 +30,39 @@ define grokmirror::resource::site (
   String                    $pull_cron_weekday           = '*',
   String                    $pull_cron_extra_flags       = '-p',
 
-  Boolean                   $fsck_enable                 = true,
-  Pattern['^\/.*\.conf$']   $fsck_configfile             = "${grokmirror::global_configdir}/${name}-fsck.conf",
-  Pattern['^\/.*\.log$']    $fsck_logfile                = "${grokmirror::global_logdir}/${name}-fsck.log",
-  Enum['debug','info']      $fsck_loglevel               = $grokmirror::global_loglevel,
-  Pattern['^\/']            $fsck_lockfile               = "${toplevel}/.fsck.lock",
-  Pattern['^\/']            $fsck_statusfile             = "${toplevel}/.fsck-status.js",
-  Integer[2,365]            $fsck_frequency              = 30,
-  Boolean                   $fsck_repack                 = true,
-  String                    $fsck_repack_flags           = '-Adlq',
-  Integer[2,100]            $fsck_full_repack_every      = 10,
-  String                    $fsck_full_repack_flags      = '-Adlfq --window=200 --depth=50',
-  Boolean                   $fsck_prune                  = true,
-  Boolean                   $fsck_cron_enable            = true,
-  String                    $fsck_cron_minute            = '0',
-  String                    $fsck_cron_hour              = '4',
-  String                    $fsck_cron_month             = '*',
-  String                    $fsck_cron_monthday          = '*',
-  String                    $fsck_cron_weekday           = 'sun',
-  String                    $fsck_cron_extra_flags       = '',
+  Boolean                   $fsck_enable                  = true,
+  Pattern['^\/.*\.conf$']   $fsck_configfile              = "${grokmirror::global_configdir}/${name}-fsck.conf",
+  Pattern['^\/.*\.log$']    $fsck_logfile                 = "${grokmirror::global_logdir}/${name}-fsck.log",
+  Enum['debug','info']      $fsck_loglevel                = $grokmirror::global_loglevel,
+  Pattern['^\/']            $fsck_lockfile                = "${toplevel}/.fsck.lock",
+  Pattern['^\/']            $fsck_statusfile              = "${toplevel}/.fsck-status.js",
+  Integer[2,365]            $fsck_frequency               = 30,
+  Boolean                   $fsck_repack                  = true,
+  # Pre-1.2 repack flags
+  String                    $fsck_repack_flags            = '-Adlq',
+  Integer[2,100]            $fsck_full_repack_every       = 10,
+  String                    $fsck_full_repack_flags       = '-Adlfq --window=200 --depth=50',
+  # 1.2+ repack flags
+  String                    $fsck_extra_repack_flags      = '',
+  String                    $fsck_extra_repack_flags_full = '--window=200 --depth=50',
+  Boolean                   $fsck_prune                   = true,
+  Boolean                   $fsck_cron_enable             = true,
+  String                    $fsck_cron_minute             = '0',
+  String                    $fsck_cron_hour               = '4',
+  String                    $fsck_cron_month              = '*',
+  String                    $fsck_cron_monthday           = '*',
+  String                    $fsck_cron_weekday            = '7',
+  String                    $fsck_cron_extra_flags        = '',
+  # For running --repack-only nightlies, set to something like
+  # ['1-6'] to enable nightly runs on weekdays.
+  Optional[Array[String]]   $fsck_cron_repack_weekday     = undef,
 
-  Array[String]             $fsck_ignore_errors          = [
+  Array[String]             $fsck_ignore_errors           = [
     'dangling commit',
     'dangling blob',
     'notice: HEAD points to an unborn branch',
     'notice: No default references',
-    'contains zero-padded file modes'
+    'contains zero-padded file modes',
   ],
 ) {
 
@@ -138,6 +145,24 @@ define grokmirror::resource::site (
         File[$fsck_configfile],
       ],
     }
-  }
 
+    if $fsck_cron_repack_weekday {
+      # This is supported in grokmirror-1.2
+      cron { "${name}-grok-fsck-repack-only":
+        ensure      => $fsck_cron_ensure,
+        command     => "${grokmirror::fsck_command} ${fsck_cron_extra_flags} -c ${fsck_configfile} --repack-only",
+        environment => $grokmirror::cron_environment,
+        minute      => $fsck_cron_minute,
+        hour        => $fsck_cron_hour,
+        month       => $fsck_cron_month,
+        monthday    => $fsck_cron_monthday,
+        weekday     => $fsck_cron_repack_weekday,
+        user        => $grokmirror::user,
+        require     => [
+          User[$grokmirror::user],
+          File[$fsck_configfile],
+        ],
+      }
+    }
+  }
 }

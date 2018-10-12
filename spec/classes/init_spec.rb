@@ -10,9 +10,10 @@ describe 'grokmirror' do
       let(:params) {{
         :global_toplevel => '/home/git',
         :global_logdir => '/var/log/git',
-        :sites => { 'example' => 
+        :sites => { 'example' =>
                     { 'pull_remote_manifest' => 'http://example.com/manifest.js',
-                      'pull_site_url' => 'git://git.example.com'
+                      'pull_site_url' => 'git://git.example.com',
+                      'fsck_cron_repack_weekday' => ['1-6'],
                     }
         }
       }}
@@ -49,6 +50,12 @@ describe 'grokmirror' do
            .with(
              'user' => 'grokmirror',
              'command' => '/usr/bin/grok-fsck  -c /etc/grokmirror/example-fsck.conf',
+           )
+      }
+      it { should contain_cron('example-grok-fsck-repack-only')
+           .with(
+             'user' => 'grokmirror',
+             'command' => '/usr/bin/grok-fsck  -c /etc/grokmirror/example-fsck.conf --repack-only',
            )
       }
     end
