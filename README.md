@@ -437,13 +437,13 @@ such as --window-memory or --threads.
 
 Default: `(nothing)`
 
-#### fsck_extra_repack_flags_full`
+#### `fsck_extra_repack_flags_full`
 
 VERSIONS OF GROKMIRROR STARTING WITH 1.2
 
 You can pass additional flags to a full repack when Grokmirror decides the
 repository can benefit from it. They are added to the value of
-extra_repack_flags, so no need to replicate them here.
+`extra_repack_flags`, so no need to replicate those here.
 
 Default: `--window=200 --depth=50`
 
