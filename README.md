@@ -408,6 +408,8 @@ Default: `true`
 
 #### `fsck_repack_flags`
 
+VERSIONS OF GROKMIRROR BEFORE 1.2
+
 The repack flags to use when repacking the repository. If you have newer git
 than 2.1, you should also pass `-b --pack-kept-objects` to pre-create bitmaps
 for faster "objects counting" stage. See `git-repack` and grokmirror
@@ -417,18 +419,33 @@ Default: `-Adlq`
 
 #### `fsck_full_repack_every`
 
+VERSIONS OF GROKMIRROR BEFORE 1.2
+
 Repos should be repacked more thoroughly every now and again, in order to
 create better deltas. This setting tells grokmirror how frequently this should
 happen (e.g. `10` means that every 10th repack should be a full repack).
 
 Default: `10`
 
-#### `fsck_full_repack_flags`
+#### `fsck_extra_repack_flags`
 
-What flags to use during full repack. You want to always include `-f` and
-probably a larger window/depth.
+VERSIONS OF GROKMIRROR STARTING WITH 1.2
 
-Default: `-Adlfq --window=200 --depth=50`
+Grokmirror-1.2 will figure out the necessary flags to pass to the repack job
+based on a lot of parameters, but you can add extra ones here if you like,
+such as --window-memory or --threads.
+
+Default: `(nothing)`
+
+#### fsck_extra_repack_flags_full`
+
+VERSIONS OF GROKMIRROR STARTING WITH 1.2
+
+You can pass additional flags to a full repack when Grokmirror decides the
+repository can benefit from it. They are added to the value of
+extra_repack_flags, so no need to replicate them here.
+
+Default: `--window=200 --depth=50`
 
 #### `fsck_prune`
 
@@ -472,7 +489,20 @@ Default: `*`
 
 The "weekday" parameter to pass to cron (must be a String).
 
-Default: `sun`
+Default: `7`
+
+#### `fsck_cron_repack_weekday`
+
+VERSIONS OF GROKMIRROR STARTING WITH 1.2
+
+Grokmirror-1.2 has an option to run a repack-only cronjob that will identify
+repositories that can benefit from a repack, but will not fsck them. If you
+have a large collection that takes a long time to fsck, you can split your
+regular grok-fsck runs to happen only occasionally, but run --repack-only jobs
+on a much more frequent basis, such as nightly. Example setting (must be an
+array due to Puppet's weird treatment of range values): ['1-6'].
+
+Default: `undef`
 
 #### `fsck_cron_extra_flags`
 
