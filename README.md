@@ -526,6 +526,24 @@ Default:
   ]
 ```
 
+#### `fsck_reclone_on_errors`
+
+If the fsck process finds errors that match any of these strings during its
+run, it will ask grok-pull to reclone this repository when it runs next. Only
+useful for minion mirrors, not for mirror masters.
+
+Default:
+```puppet
+  [
+    'fatal: bad tree object',
+    'fatal: Failed to traverse parents',
+    'missing commit',
+    'missing blob',
+    'missing tree',
+    'broken link',
+  ]
+```
+
 ## Limitations
 
 Tested on RHEL 6/7 and CentOS 6/7. Not tested anywhere else. :)

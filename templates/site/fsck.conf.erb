@@ -14,6 +14,12 @@ ignore_errors =
                 <%= igline %>
     <%- end -%>
 <%- end -%>
+<%- if (defined? @fsck_reclone_on_errors) -%>
+reclone_on_errors =
+    <%- @fsck_reclone_on_errors.each do |rline| -%>
+                <%= rline %>
+    <%- end -%>
+<%- end -%>
 
 <%- if @fsck_repack -%>
 repack = yes

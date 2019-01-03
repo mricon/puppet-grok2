@@ -64,6 +64,14 @@ define grokmirror::resource::site (
     'notice: No default references',
     'contains zero-padded file modes',
   ],
+  Array[String]             $fsck_reclone_on_errors       = [
+    'fatal: bad tree object',
+    'fatal: Failed to traverse parents',
+    'missing commit',
+    'missing blob',
+    'missing tree',
+    'broken link',
+  ],
 ) {
 
   # We create this if we are asked to be present, but we don't delete it
