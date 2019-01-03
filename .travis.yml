@@ -3,6 +3,9 @@ sudo: false
 language: ruby
 cache: bundler
 bundler_args: --without system_tests
+before_install:
+  - gem install bundler
+  - rbenv rehash
 script: 'bundle exec rake validate lint spec'
 notifications:
   email:
