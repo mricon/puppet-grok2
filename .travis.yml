@@ -4,8 +4,12 @@ language: ruby
 cache: bundler
 bundler_args: --without system_tests
 before_install:
-  - gem install bundler
-  - rbenv rehash
+  - bundle -v
+  - rm Gemfile.lock || true
+  - gem update --system
+  - gem update bundler
+  - gem --version
+  - bundle -v
 script: 'bundle exec rake validate lint spec'
 notifications:
   email:
@@ -13,7 +17,7 @@ notifications:
 matrix:
   fast_finish: true
   include:
-    - rvm: 2.4.3
+    - rvm: 2.4.4
       env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
-    - rvm: 2.4.3
+    - rvm: 2.4.4
       env: PUPPET_GEM_VERSION="~> 5.0" STRICT_VARIABLES="yes"
