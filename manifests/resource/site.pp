@@ -46,6 +46,7 @@ define grokmirror::resource::site (
   String                    $fsck_extra_repack_flags      = '',
   String                    $fsck_extra_repack_flags_full = '--window=200 --depth=50',
   Boolean                   $fsck_prune                   = true,
+  Boolean                   $fsck_precious                = false,
   Boolean                   $fsck_cron_enable             = true,
   String                    $fsck_cron_minute             = '0',
   String                    $fsck_cron_hour               = '4',

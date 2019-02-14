@@ -453,6 +453,22 @@ Whether to prune the repos after repacking (you almost always want this).
 
 Default: `true`
 
+#### `fsck_precious`
+
+VERSIONS OF GROKMIRROR STARTING WITH 1.2
+
+Setting to true will add extensions.preciousObjects=true git configuration to
+all repositories that are parents to others (via git alternates). Turning this
+on will help eliminate the possibility of repository corruption, but at a
+price of keeping all redundant objects on disk forever.  Repositories with
+preciousObjects will still be repacked periodically, but redundant packs and
+loose objects will never be cleaned up and will be kept around forever.
+
+You probably want to leave this as "false" unless you're running grok-fsck on
+your git master server.
+
+Default: `false`
+
 #### `fsck_cron_enable`
 
 Whether to enable the cronjob running `grok-fsck` on a regular basis. You

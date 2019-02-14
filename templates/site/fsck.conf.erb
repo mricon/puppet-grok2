@@ -52,3 +52,10 @@ prune = yes
 <%- else -%>
 prune = no
 <%- end -%>
+
+# Ignored by grokmirror < 1.2
+<%- if @fsck_precious -%>
+precious = yes
+<%- else -%>
+precious = no
+<%- end -%>
