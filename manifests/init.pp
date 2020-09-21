@@ -1,4 +1,4 @@
-# == Class: grokmirror
+# == Class: grok2
 #
 # Main class for grokmirror
 #
@@ -8,38 +8,25 @@
 #
 # === Copyright
 #
-# Copyright 2016 Konstantin Ryabitsev
+# Copyright 2016-2020 Konstantin Ryabitsev
 #
 # === License
 #
 # @License Apache-2.0 <http://spdx.org/licenses/Apache-2.0>
-class grokmirror (
-  Boolean               $manage_package     = $grokmirror::params::manage_package,
-  String                $package_name       = $grokmirror::params::package_name,
+class grok2 (
+  Boolean               $manage_package     = $grok2::params::manage_package,
+  String                $package_name       = $grok2::params::package_name,
   Enum['present','absent','installed','latest']
-                        $package_ensure     = $grokmirror::params::package_ensure,
-  Boolean               $git_manage_package = $grokmirror::params::git_manage_package,
-  String                $git_package_name   = $grokmirror::params::git_package_name,
-  Enum['present','absent','installed','latest']
-                        $git_package_ensure = $grokmirror::params::git_package_ensure,
-
-  Pattern['^\/']        $global_configdir   = $grokmirror::params::global_configdir,
-  Pattern['^\/']        $global_toplevel    = $grokmirror::params::global_toplevel,
-  Pattern['^\/']        $global_logdir      = $grokmirror::params::global_logdir,
-  Enum['debug','info']  $global_loglevel    = $grokmirror::params::global_loglevel,
-  String                $user               = $grokmirror::params::user,
-  Boolean               $manage_user        = $grokmirror::params::manage_user,
-  String                $group              = $grokmirror::params::group,
-  Boolean               $manage_group       = $grokmirror::params::manage_group,
-  Pattern['^\/']        $pull_command       = $grokmirror::params::pull_command,
-  Pattern['^\/']        $fsck_command       = $grokmirror::params::fsck_command,
-  String                $cron_environment   = $grokmirror::params::cron_environment,
+                        $package_ensure     = $grok2::params::package_ensure,
+  Pattern['^\/']        $global_toplevel    = $grok2::params::global_toplevel,
+  String                $owner              = $grok2::params::owner,
+  String                $group              = $grok2::params::group,
 
   Hash $sites = {},
 
-) inherits grokmirror::params {
+) inherits grok2::params {
 
-  include 'grokmirror::install'
-  create_resources('grokmirror::resource::site', $sites)
+  include 'grok2::install'
+  create_resources('grok2::resource::site', $sites)
 
 }

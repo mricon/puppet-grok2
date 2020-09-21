@@ -1,4 +1,3 @@
-# 0.1.2
+# 2.0
 
-- Fix cron enablement parameters and implement them
-- Fix a few typos
+- Dramatically simplify grokmirror module

@@ -1,0 +1,14 @@
+# This file is managed by puppet
+<% @config.each do |section, params| %>
+[<%= section %>]
+<%
+params.each do |key, val|
+  if val.is_a? Array
+    value = val.flatten.join("\n\t")
+  else
+    value = val
+  end
+-%>
+<%= key %> = <%= value %>
+<% end -%>
+<% end -%>
