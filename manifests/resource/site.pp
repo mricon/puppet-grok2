@@ -156,7 +156,7 @@ define grok2::resource::site (
     $pull_ensure = 'stopped'
     $pull_enable = false
   }
-  service { "grok-pull@${sitename}":
+  service { "grok-pull@${sitename}.service":
     ensure     => $pull_ensure,
     enable     => $pull_enable,
     hasrestart => true,
