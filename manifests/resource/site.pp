@@ -135,7 +135,7 @@ define grok2::resource::site (
     }
   }
 
-  exec { 'refresh_systemd_overrides':
+  exec { "refresh_systemd_overrides_${sitename}":
     command     =>  '/bin/systemctl daemon-reload',
     refreshonly =>  true,
     subscribe   =>  [
