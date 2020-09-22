@@ -2,18 +2,16 @@ define grok2::resource::site (
 
   Enum['present','absent']  $ensure   = 'present',
   Pattern['^\/']            $toplevel = "${grok2::global_toplevel}/${name}",
+  Hash                      $config   = undef,
 
-  Hash                      $config = undef,
-
-  String                    $pull_service_overrides = undef,
-  String                    $fsck_service_overrides = undef,
-  String                    $fsck_timer_overrides   = undef,
-  String                    $sysconfig_env_opts     = undef,
+  Optional[String]          $pull_service_overrides = undef,
+  Optional[String]          $fsck_service_overrides = undef,
+  Optional[String]          $fsck_timer_overrides   = undef,
+  Optional[String]          $sysconfig_env_opts     = undef,
   Boolean                   $enable_pull            = true,
   Boolean                   $enable_fsck            = true,
 ) {
 
-  validate_hash($config)
   $sitename = $name
 
   # We create this if we are asked to be present, but we don't delete it
