@@ -35,6 +35,7 @@ define grok2::resource::site (
     mode    => '0644',
     content => template('grok2/grokmirror.conf.erb'),
     require => Package[$grok2::package_name],
+    notify  => Service["grok-pull@${sitename}.service"],
   }
 
   if $pull_service_overrides {
