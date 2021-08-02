@@ -22,6 +22,7 @@ define grok2::resource::site (
       owner   => $grok2::owner,
       group   => $grok2::group,
       mode    => '0755',
+      seltype => $grok2::global_seltype,
       require => [
         File[$grok2::global_toplevel],
       ],

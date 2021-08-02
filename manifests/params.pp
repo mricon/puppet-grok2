@@ -20,6 +20,7 @@ class grok2::params {
   $package_name    = 'python3-grokmirror'
   $package_ensure  = 'installed'
   $global_toplevel = '/var/lib/git'
+  $global_seltype  = 'git_sys_content_t'
   $owner           = 'mirror'
   $group           = 'mirror'
 }

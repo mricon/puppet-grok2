@@ -24,9 +24,10 @@ class grok2::install {
   }
 
   file { $grok2::global_toplevel:
-    ensure => 'directory',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
+    ensure  => 'directory',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    seltype => $grok2::global_seltype,
   }
 }

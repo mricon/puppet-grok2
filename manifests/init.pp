@@ -19,6 +19,7 @@ class grok2 (
   Enum['present','absent','installed','latest']
                         $package_ensure     = $grok2::params::package_ensure,
   Pattern['^\/']        $global_toplevel    = $grok2::params::global_toplevel,
+  String                $global_seltype     = $grok2::params::global_seltype,
   String                $owner              = $grok2::params::owner,
   String                $group              = $grok2::params::group,
 
